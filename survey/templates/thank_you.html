@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thank You</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color:rgb(120, 120, 120); /* Light Gray */
+            color: #333; /* Dark Gray */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Thank You Container */
+        .thank-you-container {
+            padding: 20px 30px;
+            border-radius: 10px;
+            background: #fff; /* White background */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 90%;
+        }
+
+        /* Header Styling */
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Button Styling */
+        .button {
+            background-color: #444; /* Dark Gray */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        .button:hover {
+            background-color: #222; /* Darker Gray */
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <h2>Thank You for Completing the Survey!</h2>
+        <p>Your responses have been recorded.</p>
+        <a href="/survey" class="button">Return to Home</a>
+    </div>
+</body>
+</html>

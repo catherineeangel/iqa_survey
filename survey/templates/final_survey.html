@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Final Survey</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(120, 120, 120); /* Light Gray */
+            color: #333; /* Dark Gray */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        /* Form Styling */
+        form {
+            background: transparent; /* No additional box */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Label Styling */
+        label {
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+            text-align: left;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Input Styling */
+        input[type="number"], textarea {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f8f8f8;
+        }
+
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #444; /* Dark Gray */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        button:hover {
+            background-color: #222; /* Darker Gray */
+            transform: scale(1.05);
+        }
+    </style>
+
+    <script>
+        function validateForm() {
+            let contrast = document.querySelector("input[name='contrast']").value;
+            let sharpness = document.querySelector("input[name='sharpness']").value;
+            let colorfulness = document.querySelector("input[name='colorfulness']").value;
+            let brightness = document.querySelector("input[name='brightness']").value;
+
+            let rankings = [contrast, sharpness, colorfulness, brightness];
+            let uniqueRankings = new Set(rankings);
+
+            if (uniqueRankings.size !== rankings.length) {
+                alert("Each factor must have a unique ranking (1-4). Please adjust your rankings.");
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission
+        }
+    </script>
+</head>
+<body>
+    <h2>Rate Image Quality Factors</h2>
+
+    <form method="post" action="{% url 'final_survey' %}" onsubmit="return validateForm()">
+        {% csrf_token %}
+
+        <label>Contrast: 
+            <input type="number" name="contrast" min="1" max="4" required>
+        </label>
+        
+        <label>Sharpness: 
+            <input type="number" name="sharpness" min="1" max="4" required>
+        </label>
+        
+        <label>Colorfulness: 
+            <input type="number" name="colorfulness" min="1" max="4" required>
+        </label>
+        
+        <label>Brightness: 
+            <input type="number" name="brightness" min="1" max="4" required>
+        </label>
+        
+        <label>Additional Comments (Optional): 
+            <textarea name="comments" placeholder="Write your comments here..."></textarea>
+        </label>
+
+        <button type="submit">Submit Survey</button>
+    </form>
+</body>
+</html>
