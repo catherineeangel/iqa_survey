@@ -1,9 +1,9 @@
 from django.db import models
-import random
 
 class Participant(models.Model):
     name = models.CharField(max_length=255)
     date = models.DateField(auto_now_add=True)
+    current_index = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} ({self.date})"
@@ -15,6 +15,10 @@ class Image(models.Model):
     def __str__(self):
         return self.file_name
 
+class ParticipantImage(models.Model):
+    participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    
 class ImageRating(models.Model):
     participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
     image = models.ForeignKey(Image, on_delete=models.CASCADE)

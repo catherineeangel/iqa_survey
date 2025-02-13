@@ -1,11 +1,15 @@
 from django.contrib import admin
-from .models import Participant, Image, ImageRating, FinalSurvey
+from .models import Participant, Image, ImageRating, FinalSurvey, ParticipantImage
 
 
 @admin.register(Participant)
 class ParticipantAdmin(admin.ModelAdmin):
-    list_display = ("name", "date")  
+    list_display = ("name", "date","current_index")  
     search_fields = ("name",)  
+
+@admin.register(ParticipantImage)
+class ParticipantImageAdmin(admin.ModelAdmin):
+    list_display = ("participant", "image")  
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
