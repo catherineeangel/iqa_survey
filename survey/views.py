@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 
 
+
 def start_survey(request):
     if request.method == "POST":
         name = request.POST.get("name")
