@@ -1,7 +1,15 @@
 from django.db import models
 
 class Participant(models.Model):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+    ]
+
     name = models.CharField(max_length=255)
+    age = models.IntegerField(default=0)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='F') 
+    is_colorblind = models.BooleanField(default=False)
     date = models.DateField(auto_now_add=True)
     current_index = models.IntegerField(default=0)
 

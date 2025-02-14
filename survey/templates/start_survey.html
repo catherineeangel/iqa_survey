@@ -8,7 +8,7 @@
         /* General Page Styling */
         body {
             font-family: Arial, sans-serif;
-            background-color: rgb(120, 120, 120); /* Light Grey */
+            background-color: rgb(140, 140, 140); /* Light Grey */
             color: #333; /* Dark Grey */
             display: flex;
             justify-content: center;
@@ -34,15 +34,25 @@
             font-size: 16px;
             margin-bottom: 8px;
             font-weight: bold;
+            text-align: left;
         }
 
-        input[type="text"] {
-            width: 100%;
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 90%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+        }
+
+        /* Radio Button Styling */
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
         }
 
         /* Submit Button */
@@ -55,6 +65,7 @@
             font-size: 16px;
             cursor: pointer;
             transition: background 0.3s;
+            width: 100%;
         }
 
         button:hover {
@@ -67,8 +78,25 @@
         <h2>Start Survey</h2>
         <form method="post">
             {% csrf_token %}
-            <label for="name">Enter your name:</label>
-            <input type="text" name="name" placeholder="Your Name" required>
+            <label for="name">Tuliskan nama Anda:</label>
+            <input type="text" name="name" placeholder="Nama Anda" required>
+
+            <label for="age">Sebutkan usia Anda:</label>
+            <input type="number" name="age" placeholder="Usia Anda" required>
+
+            <label for="gender">Pilih jenis kelamin Anda:</label>
+            <select name="gender" required>
+                <option value="" disabled selected>Pilih</option>
+                <option value="M">Laki-laki</option>
+                <option value="F">Perempuan</option>
+            </select>
+
+            <label>Apakah Anda buta warna?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="colorblind" value="True" required> Ya</label>
+                <label><input type="radio" name="colorblind" value="False" required> Tidak</label>
+            </div>
+
             <button type="submit">Start Survey</button>
         </form>
     </div>

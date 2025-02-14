@@ -9,12 +9,22 @@ from django.db import transaction
 def start_survey(request):
     if request.method == "POST":
         name = request.POST.get("name")
-        
-        with transaction.atomic():  
-            participant = Participant.objects.create(name=name)
-            total_participants = Participant.objects.count()  
+        age = request.POST.get("age")
+        gender = request.POST.get("gender")
+        is_colorblind = request.POST.get("colorblind") == "True"  
 
-        # Fetch all images (already sorted by ID in the database)
+        with transaction.atomic():
+            participant = Participant.objects.create(
+                name=name,
+                age=int(age),
+                gender=gender,
+                is_colorblind=is_colorblind
+            )
+            total_participants = Participant.objects.count()
+
+        if is_colorblind:
+            return redirect('thank_you')
+        # Fetch all images (sorted by ID)
         all_images = list(Image.objects.all())
 
         if not all_images:
@@ -24,7 +34,6 @@ def start_survey(request):
         images_per_participant = 30  # Each participant gets 30 images
 
         # Determine starting index for this participant
-        total_participants = Participant.objects.count()
         start_index = ((total_participants - 1) * images_per_participant) % total_images
 
         # Select 30 images following the rotation pattern
@@ -41,7 +50,6 @@ def start_survey(request):
         return redirect("survey_question")
 
     return render(request, "start_survey.html")
-
 
 def survey_question(request):
     participant_id = request.session.get("participant_id")

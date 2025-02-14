@@ -4,106 +4,129 @@
 <head>
     <title>Final Survey</title>
     <style>
-        /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: rgb(120, 120, 120); /* Light Gray */
-            color: #333; /* Dark Gray */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: rgb(140, 140, 140); /* Light Gray */
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
 
-        .container {
-            display: flex;
-            gap: 30px;
-            max-width: 1200px;
-            width: 100%;
-        }
+    /* Centralized Container */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        max-width: 90%;
+    }
 
-        /* Thumbnail Grid Styling */
-        .thumbnail-container {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-            max-width: 60%;
-            align-items: center;
-        }
+    /* Thumbnail Grid: Centered & Compact */
+    .thumbnail-container {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+        max-width: 100%;
+    }
 
-        .thumbnail-container img {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-            border-radius: 5px;
-        }
+    .thumbnail-container img {
+        width: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
 
-        /* Form Container */
-        .form-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-            justify-content: center; 
-            text-align: center;
-            height: 100%; 
-        }
+    /* Form Container */
+    .form-container {
+        width: 100%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1); /* Light transparent background */
+        border-radius: 10px;
+    }
 
-        form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        text-align: left;
+    }
 
-        /* Label Styling */
-        label {
-            display: flex;
-            flex-direction: column;
-            font-weight: bold;
-            text-align: left;
-            width: 100%;
-        }
+    form p{
+        font-weight: 800;
+    }
 
-        /* Input Styling */
-        input[type="number"], textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #aaa;
-            border-radius: 8px;
-            font-size: 16px;
-            background-color: #f8f8f8;
-        }
+    .ranking-container {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
 
-        textarea {
-            height: 80px;
-            resize: vertical;
-        }
+    .ranking-container label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 700;
+        gap: 8px;
+    }
 
-        /* Button Styling */
-        button {
-            background-color: #444;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.1s;
-            width: 100%;
-        }
+    .ranking-container input {
+        width: 50px;
+        height: 40px;
+        text-align: center;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
 
-        button:hover {
-            background-color: #222;
-            transform: scale(1.05);
-        }
+    /* Textarea */
+    textarea {
+        width: 100%;
+        max-width: 90%;
+        height: 100px;
+        resize: vertical;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Button */
+    button {
+        background-color: #444;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.1s;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    button:hover {
+        background-color: #222;
+        transform: scale(1.05);
+    }
+
     </style>
 
     <script>
@@ -126,6 +149,8 @@
 </head>
 <body>
     <div class="container">
+        <h2>Survei Keseluruhan Gambar</h2>
+
         <!-- Thumbnail Display -->
         <div class="thumbnail-container">
             {% for participant_image in participant_images %}
@@ -135,31 +160,30 @@
 
         <!-- Form Container -->
         <div class="form-container">
-            <h2>Final Survey</h2>
-            <p>Please review the images before submitting your final feedback.</p>
-
             <form method="post" action="{% url 'final_survey' %}" onsubmit="return validateForm()">
                 {% csrf_token %}
+                <p>1. Seberapa besar faktor-faktor berikut memengaruhi penilaian subjektif Anda terhadap gambar yang ditampilkan? Urutkan dari 1 hingga 4 (1 paling berpengaruh, 4 paling tidak berpengaruh).</p>
 
-                <label>Contrast: 
-                    <input type="number" name="contrast" min="1" max="4" required>
-                </label>
-                
-                <label>Sharpness: 
-                    <input type="number" name="sharpness" min="1" max="4" required>
-                </label>
-                
-                <label>Colorfulness: 
-                    <input type="number" name="colorfulness" min="1" max="4" required>
-                </label>
-                
-                <label>Brightness: 
-                    <input type="number" name="brightness" min="1" max="4" required>
-                </label>
-                
-                <label>Additional Comments (Optional): 
-                    <textarea name="comments" placeholder="Write your comments here..."></textarea>
-                </label>
+                <div class="ranking-container">
+                    <label>Kontras
+                        <input type="number" name="contrast" min="1" max="4" required>
+                    </label>
+
+                    <label>Ketajaman
+                        <input type="number" name="sharpness" min="1" max="4" required>
+                    </label>
+
+                    <label>Warna
+                        <input type="number" name="colorfulness" min="1" max="4" required>
+                    </label>
+
+                    <label>Kecerahan
+                        <input type="number" name="brightness" min="1" max="4" required>
+                    </label>
+                </div>
+
+                <p>2. Jelaskan alasan yang mendukung penilaian subjektif Anda terhadap gambar yang telah Anda nilai. </p>
+                <textarea name="comments" placeholder="Tuliskan jawabanmu di sini"></textarea>
 
                 <button type="submit">Submit Survey</button>
             </form>
