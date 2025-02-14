@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,25 +10,56 @@
             background-color: rgb(120, 120, 120); /* Light Gray */
             color: #333; /* Dark Gray */
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
-            text-align: center;
+            padding: 20px;
         }
 
-        h2 {
-            margin-bottom: 15px;
+        .container {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
         }
 
-        /* Form Styling */
-        form {
-            background: transparent; /* No additional box */
+        /* Thumbnail Grid Styling */
+        .thumbnail-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            max-width: 60%;
+            align-items: center;
+        }
+
+        .thumbnail-container img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        /* Form Container */
+        .form-container {
+            flex: 1;
             display: flex;
             flex-direction: column;
             gap: 15px;
             align-items: center;
+            justify-content: center; 
+            text-align: center;
+            height: 100%; 
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
         /* Label Styling */
@@ -37,13 +69,11 @@
             font-weight: bold;
             text-align: left;
             width: 100%;
-            max-width: 400px;
         }
 
         /* Input Styling */
         input[type="number"], textarea {
             width: 100%;
-            max-width: 400px;
             padding: 10px;
             margin-top: 5px;
             border: 1px solid #aaa;
@@ -59,7 +89,7 @@
 
         /* Button Styling */
         button {
-            background-color: #444; /* Dark Gray */
+            background-color: #444;
             color: white;
             padding: 12px 20px;
             border: none;
@@ -68,11 +98,10 @@
             cursor: pointer;
             transition: background 0.3s, transform 0.1s;
             width: 100%;
-            max-width: 400px;
         }
 
         button:hover {
-            background-color: #222; /* Darker Gray */
+            background-color: #222;
             transform: scale(1.05);
         }
     </style>
@@ -89,40 +118,52 @@
 
             if (uniqueRankings.size !== rankings.length) {
                 alert("Each factor must have a unique ranking (1-4). Please adjust your rankings.");
-                return false; // Prevent form submission
+                return false;
             }
-
-            return true; // Allow form submission
+            return true;
         }
     </script>
 </head>
 <body>
-    <h2>Rate Image Quality Factors</h2>
+    <div class="container">
+        <!-- Thumbnail Display -->
+        <div class="thumbnail-container">
+            {% for participant_image in participant_images %}
+                <img src="{% static 'images/' %}{{ participant_image.image }}" alt="Image Thumbnail">
+            {% endfor %}
+        </div>
 
-    <form method="post" action="{% url 'final_survey' %}" onsubmit="return validateForm()">
-        {% csrf_token %}
+        <!-- Form Container -->
+        <div class="form-container">
+            <h2>Final Survey</h2>
+            <p>Please review the images before submitting your final feedback.</p>
 
-        <label>Contrast: 
-            <input type="number" name="contrast" min="1" max="4" required>
-        </label>
-        
-        <label>Sharpness: 
-            <input type="number" name="sharpness" min="1" max="4" required>
-        </label>
-        
-        <label>Colorfulness: 
-            <input type="number" name="colorfulness" min="1" max="4" required>
-        </label>
-        
-        <label>Brightness: 
-            <input type="number" name="brightness" min="1" max="4" required>
-        </label>
-        
-        <label>Additional Comments (Optional): 
-            <textarea name="comments" placeholder="Write your comments here..."></textarea>
-        </label>
+            <form method="post" action="{% url 'final_survey' %}" onsubmit="return validateForm()">
+                {% csrf_token %}
 
-        <button type="submit">Submit Survey</button>
-    </form>
+                <label>Contrast: 
+                    <input type="number" name="contrast" min="1" max="4" required>
+                </label>
+                
+                <label>Sharpness: 
+                    <input type="number" name="sharpness" min="1" max="4" required>
+                </label>
+                
+                <label>Colorfulness: 
+                    <input type="number" name="colorfulness" min="1" max="4" required>
+                </label>
+                
+                <label>Brightness: 
+                    <input type="number" name="brightness" min="1" max="4" required>
+                </label>
+                
+                <label>Additional Comments (Optional): 
+                    <textarea name="comments" placeholder="Write your comments here..."></textarea>
+                </label>
+
+                <button type="submit">Submit Survey</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

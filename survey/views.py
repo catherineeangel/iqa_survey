@@ -1,5 +1,3 @@
-import os
-import random
 from django.shortcuts import render, redirect
 from .models import Participant, Image, ImageRating, FinalSurvey, ParticipantImage
 from django.http import JsonResponse
@@ -143,10 +141,14 @@ def submit_rating(request):
     return JsonResponse({"error": "Invalid request"}, status=400)
 
 def final_survey(request):
-    if request.method == "POST":
-        participant_id = request.session.get("participant_id")
-        participant = Participant.objects.get(id=participant_id)
+    participant_id = request.session.get("participant_id")
+    participant = Participant.objects.get(id=participant_id)
+    
+    # Get the images assigned to this participant
+    participant_images = ParticipantImage.objects.filter(participant=participant).select_related("image")
+    print(participant_images[0].image)
 
+    if request.method == "POST":
         FinalSurvey.objects.create(
             participant=participant,
             contrast=request.POST.get("contrast"),
@@ -160,7 +162,8 @@ def final_survey(request):
 
         return redirect("thank_you")
 
-    return render(request, "final_survey.html")
+    return render(request, "final_survey.html", {"participant_images": participant_images})
+
 
 def thank_you(request):
     return render(request, "thank_you.html")
