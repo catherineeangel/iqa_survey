@@ -127,6 +127,33 @@
         transform: scale(1.05);
     }
 
+    .thumbnail-container {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr); /* 6 images per row */
+        gap: 10px;
+        max-width: 100%;
+        padding: 10px;
+        justify-content: center;
+    }
+
+    .thumbnail-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 12px;
+    }
+
+    .thumbnail-number {
+        font-weight: bold;
+    }
+
+    .thumbnail-item img {
+        max-width: 100px; /* Ensures images do not exceed this size */
+        height: auto; /* Maintains aspect ratio */
+        object-fit: contain; /* Prevents cropping */
+        border-radius: 5px; /* Optional rounded corners */
+    }
+
     </style>
 
     <script>
@@ -154,7 +181,10 @@
         <!-- Thumbnail Display -->
         <div class="thumbnail-container">
             {% for participant_image in participant_images %}
-                <img src="{% static 'images/' %}{{ participant_image.image }}" alt="Image Thumbnail">
+                <div class="thumbnail-item">
+                    <span class="thumbnail-number">{{ forloop.counter }}</span>
+                    <img src="{% static 'images/' %}{{ participant_image.image }}" alt="Image Thumbnail">
+                </div>
             {% endfor %}
         </div>
 

@@ -71,12 +71,18 @@
         button:hover {
             background-color: #333; /* Slightly darker grey */
         }
+
+        /* Disabled Button Styling */
+        button:disabled {
+            background-color: #888;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
     <div class="form-container">
         <h2>Start Survey</h2>
-        <form method="post">
+        <form method="post" onsubmit="handleSubmit(event)">
             {% csrf_token %}
             <label for="name">Tuliskan nama Anda:</label>
             <input type="text" name="name" placeholder="Nama Anda" required>
@@ -97,8 +103,16 @@
                 <label><input type="radio" name="colorblind" value="False" required> Tidak</label>
             </div>
 
-            <button type="submit">Start Survey</button>
+            <button type="submit" id="submit-btn">Start Survey</button>
         </form>
     </div>
+
+    <script>
+        function handleSubmit(event) {
+            const submitButton = document.getElementById('submit-btn');
+            submitButton.textContent = 'Loading...';
+            submitButton.disabled = true; // Disable button to prevent multiple clicks
+        }
+    </script>
 </body>
 </html>
